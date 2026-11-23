@@ -1,0 +1,11 @@
+grpcio
+mypy-protobuf
+ruff
+black
+pytest
+pytest-cov
+pyright
+isort
+eralchemy2
+pip-tools
+pyupgrade

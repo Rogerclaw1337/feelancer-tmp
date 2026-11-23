@@ -1,0 +1,30 @@
+services:
+  feelancer:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    stop_grace_period: 120s
+    depends_on:
+      - "db"
+    volumes:
+      - ./app:/app # config and log directory
+      - /home/marksn/umbrel/app-data/lightning/data/lnd:/root/.lnd:ro
+    command:
+    - -c
+    - feelancer --config /app/feelancer.toml
+
+  db:
+    image: "postgres:14"
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: "feelancer"
+      POSTGRES_USER: "feelancer"
+      POSTGRES_DB: "feelancer"
+    volumes:
+      - db_storage:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  db_storage:
